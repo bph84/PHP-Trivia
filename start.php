@@ -21,6 +21,11 @@ expectObContent(function() {
     print($notARealVariable); //FML moment there;
 }, "Undefined variable: notARealVariable in");
 
+// Test that deprecated warnings are shown. 
+expectObContent(function() {
+    $disregard = password_hash("password", PASSWORD_DEFAULT, ['salt' => 'bad salt']);
+}, "Use of the 'salt' option to password_hash is deprecated");
+
 function expectObContent($outputtingFunc, $expectedText) { 
     // expected text within the output text since PHP appents formatting stuff <br /> <b> etc. 
 
