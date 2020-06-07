@@ -10,17 +10,20 @@ expectObContentAssertions();
 nestedFunctions();
 
 
+
+// Function definitions only below here. 
+
 function expectObContentAssertions() {
     expectObContent(function() {
         echo "testing here";
     }, "testing here");
     
     expectObContent(function() {
-        print(1 + "1"); //FML moment there;
+        print(1 + "1"); //PHP forces strings into ints
     }, "2");
     
     expectObContent(function() {
-        print(1 . "1"); //FML moment there;
+        print(1 . "1"); //PHP concatination
     }, "11");
     
     expectObContent(function() {
@@ -36,21 +39,21 @@ function expectObContentAssertions() {
 function nestedFunctions() {
 
     //Nested function do not have access to function variables! 
-    $executionCount = 0;
+    $executionCount = 999;
 
     function go($executionCount) {
 
         if ($executionCount == 0) {
             assert(! function_exists("testFunc"));
+            
+            function testFunc() {
+                // do nothing;
+            }
+
         } else {
             assert(function_exists("testFunc"));
         }
 
-        if (! function_exists("testFunc")) {
-            function testFunc() {
-                // do nothing;
-            }
-        }
 
         $executionCount++;
 
@@ -58,11 +61,14 @@ function nestedFunctions() {
         return $executionCount;
     }
 
-    $executionCount = go($executionCount);
-    $executionCount = go($executionCount);
 
-    assert($executionCount == 2);
+    assert(go(0) == 1);
+    assert(go(1) == 2); //N.B. testFunc has now been defined!
+    assert(go(1) == 2); //Execution count is still 2, the outer value is ignored. 
+
+    assert($executionCount == 999); //Value unchanged!
 }
+
 
 
 function expectObContent($outputtingFunc, $expectedText) { 
