@@ -11,6 +11,7 @@ nestedFunctions();
 
 
 
+
 // Function definitions only below here. 
 
 function expectObContentAssertions() {
@@ -70,7 +71,6 @@ function nestedFunctions() {
 }
 
 
-
 function expectObContent($outputtingFunc, $expectedText) { 
     // expected text within the output text since PHP appents formatting stuff <br /> <b> etc. 
 
@@ -85,7 +85,6 @@ function expectObContent($outputtingFunc, $expectedText) {
         var_dump($expectedText);
     }
 }
-
 
 
 
